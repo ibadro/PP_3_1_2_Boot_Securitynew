@@ -1,18 +1,45 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Service
 public class RoleServiceImpl implements RoleService{
 
-    @Override
-    public List<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    private final RoleRepository roleRepository;
+
+    @Autowired
+    public RoleServiceImpl( RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+
     }
+
+    @Override
+    public Set<Role> getAllRoles() {
+        return roleRepository.getAllRoles();
+    }
+
+    @Override
+    public Set<Role> getByName(String name) {
+        Set<Role> roles = new HashSet<>();
+        for (Role role : getAllRoles()) {
+            if (name.contains(role.getName()))
+                roles.add(role);
+        }
+        return roles;
+    }
+
+    @Override
+    @Transactional
+    public void saveRole(Role role) {
+        roleRepository.saveRole(role);
+    }
+
 }

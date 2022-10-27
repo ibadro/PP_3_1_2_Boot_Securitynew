@@ -18,7 +18,7 @@ public class AdminControllers {
 
     @GetMapping()
     public String getUsers(Model model) {
-        model.addAttribute("users", userServiceImpl.findAllUsers());
+        model.addAttribute("users", userServiceImpl.getAllUsers());
         return "admin/list";
     }
 
@@ -30,25 +30,25 @@ public class AdminControllers {
 
     @PostMapping()
     public String createUser(@ModelAttribute("user") User user) {
-        userServiceImpl.saveUser(user);
+        userServiceImpl.add(user);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userServiceImpl.deleteByIdUsers(id);
+        userServiceImpl.delete(id);
         return "redirect:/admin";
     }
 
     @GetMapping("/edit/{id}")
     public String getUserFormEdit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userServiceImpl.findByIdUsers(id));
+        model.addAttribute("user", userServiceImpl.getUserById(id));
         return "admin/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userServiceImpl.updateUser(id, user);
+        userServiceImpl.update(user,id);
         return "redirect:/admin";
     }
 }
