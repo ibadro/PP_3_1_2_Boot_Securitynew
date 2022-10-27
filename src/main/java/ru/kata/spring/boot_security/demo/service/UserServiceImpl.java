@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -36,20 +36,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void add(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.create(user);
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         userRepository.delete(id);
     }
 
     @Override
-    @Transactional
     public void update(User user, Long id) {
         user.setId(id);
         user.setPassword(user.getPassword() != null && !user.getPassword().trim().equals("") ? bCryptPasswordEncoder

@@ -26,7 +26,7 @@ create table bootstrap_db.users_roles
 
 insert into bootstrap_db.users (id,username,password)
 values  (1, 'admin', '$2y$10$1vU.nuwwuj3XwV0DJfuXxektTD8GgYTkqnZFsLTEwaUjxvRb.QLD6'),
-        (2, 'user', '$2y$10$1vU.nuwwuj3XwV0DJfuXxektTD8GgYTkqnZFsLTEwaUjxvRb.QLD6'),
+        (2, 'user', '100'),
         (3, 'user1', '$2y$10$1vU.nuwwuj3XwV0DJfuXxektTD8GgYTkqnZFsLTEwaUjxvRb.QLD6');
 
 insert into bootstrap_db.roles (id, name)
